@@ -28,7 +28,7 @@ st.set_page_config(
 )
 
 # Snowflakeセッション取得
-@st.cache_resource
+@st.cache_resource(ttl=600)
 def get_snowflake_session():
     return get_active_session()
 
@@ -68,7 +68,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # 利用可能な通貨ペア取得関数
-@st.cache_data(ttl=86400)  # 24時間キャッシュ
+@st.cache_data(ttl=600) 
 def get_available_currency_pairs():
     """利用可能な通貨ペアを取得"""
     query = """
@@ -95,7 +95,7 @@ def get_available_currency_pairs():
     return df
 
 # データ取得関数
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=600)
 def load_fx_data(start_date, end_date, base_currency='USD', quote_currency='JPY'):
     """指定通貨ペアの為替データを取得"""
     query = f"""
@@ -123,7 +123,7 @@ def load_fx_data(start_date, end_date, base_currency='USD', quote_currency='JPY'
     return df
 
 # 複数通貨ペア対応データ取得関数
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=600)
 def load_multiple_fx_data(start_date, end_date, currency_pairs):
     """複数通貨ペアの為替データを取得"""
     all_data = {}
